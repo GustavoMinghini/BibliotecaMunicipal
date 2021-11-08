@@ -1,0 +1,81 @@
+<form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)">
+  <input type="hidden" name="pessoaId" [value]="service.formData.pessoaId" />
+  <div class="form-group">
+      <label>Nome</label>
+      <input class="form-control form-control-lg" type="text" placeholder="Nome do Cliente" name="pessoaName"
+          #pessoaName="ngModel" [(ngModel)]="service.formData.pessoaName"
+          required [class.invalid]="pessoaName.invalid && pessoaName.touched">
+  </div>
+  <div class="form-group">
+      <label>Endereço</label>
+      <input class="form-control form-control-lg" placeholder="Logradouro" name="endereco"
+          #endereco="ngModel" [(ngModel)]="service.formData.endereco"
+          required  [class.invalid]="endereco.invalid && endereco.touched">
+  </div>
+  <div class="form-row">
+      <div class="form-group col-md-6">
+          <label>CPF</label>
+          <input class="form-control form-control-lg" type="number" placeholder="Security Code" name="cpf"
+              #cpf="ngModel" [(ngModel)]="service.formData.cpf"
+              required  [class.invalid]="cpf.invalid && cpf.touched">
+      </div>
+      <div class="form-group col-md-6">
+          <label>Telefone</label>
+          <input class="form-control form-control-lg" type="number" placeholder="Telefone com DD" name="telefone"
+              #telefone="ngModel" [(ngModel)]="service.formData.telefone"
+              required [class.invalid]="telefone.invalid && telefone.touched">
+      </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        <label>Idade</label>
+        <input class="form-control form-control-lg" type="number" placeholder="Security Code" name="idade"
+            #idade="ngModel" [(ngModel)]="service.formData.idade"
+            required minlength="0" maxlength="3" [class.invalid]="idade.invalid && idade.touched">
+    </div>
+  </div>
+
+  <div class="form-group">
+      <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">SUBMIT</button>
+  </div>
+</form>
+
+
+<div class="jumbotron py-3">
+  <h1 class="display-4 text-center">Biblioteca Municipal</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+
+  </div>
+  <div class="col-md-6">
+      <table class="table">
+          <thead class="thead-light">
+              <tr>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Telefone</th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let pd of service.list">
+                  <td (click)="populateForm(pd)">{{pd.pessoaName}}</td>
+                  <td (click)="populateForm(pd)">{{pd.cpf}}</td>
+                  <td (click)="populateForm(pd)">{{pd.telefone}}</td>
+
+                  <td>
+                      <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.pessoaId)"></i>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+
+
+
+
+

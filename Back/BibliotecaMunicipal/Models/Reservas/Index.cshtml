@@ -1,0 +1,48 @@
+﻿@page
+@model BibliotecaMunicipal.Models.Reservas.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Reserva[0].LivroId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reserva[0].PessoaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reserva[0].DataChegada)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Reserva) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LivroId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PessoaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataChegada)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ReservaId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ReservaId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ReservaId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
