@@ -1,32 +1,96 @@
-<div class="jumbotron py-3">
-  <h1 class="display-4 text-center">Biblioteca Municipal</h1>
+
+<div class="container">
+  <div class="jumbotron py-1">
+    <h1 class="display-7 text-center">Cadastrar Livro</h1>
+  </div>
+  <div class="row justify-content-center align-items-center">
+  <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)" (reset)="onReset(form)">
+    <input type="hidden" name="livroId" [value]="service.formData.livroId" />
+    <div class="form-group">
+      <label>Nome do livro</label>
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z0-9]+$" placeholder="Book's name"
+        name="livroName" #livroName="ngModel" [(ngModel)]="service.formData.livroName" required
+        [class.invalid]="livroName.invalid && livroName.touched">
+    </div>
+    <div class="form-group">
+      <label>Autor</label>
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Author" name="autor"
+        #autor="ngModel" [(ngModel)]="service.formData.autor" required [class.invalid]="autor.invalid && autor.touched">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Gênero</label>
+        <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Genre" name="genero"
+          #genero="ngModel" [(ngModel)]="service.formData.genero" required
+          [class.invalid]="genero.invalid && genero.touched">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Editora</label>
+        <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Publishing company"
+          name="editora" #editora="ngModel" [(ngModel)]="service.formData.editora" required
+          [class.invalid]="editora.invalid && editora.touched">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>ISBN</label>
+        <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="Standard Book Number"
+          name="isbn" #isbn="ngModel" [(ngModel)]="service.formData.isbn" required minlength="0" maxlength="3"
+          [class.invalid]="isbn.invalid && isbn.touched">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Quantidade</label>
+        <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="The amount"
+          name="quantidade" #quantidade="ngModel" [(ngModel)]="service.formData.quantidade" required minlength="0"
+          maxlength="3" [class.invalid]="quantidade.invalid && quantidade.touched">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Cadastrar</button>
+      </div>
+      <div class="form-group col-md-6">
+        <button class="btn btn-info btn-lg btn-block" type="reset">Cancelar</button>
+      </div>
+    </div>
+    </form>
+  </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6">
-      <app-livros-details-from></app-livros-details-from>
+
+
+  <div class="jumbotron py-1">
+    <h1 class="display-7 text-center">Livros Cadastrados</h1>
   </div>
-  <div class="col-md-6">
+
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
       <table class="table">
-          <thead class="thead-light">
-              <tr>
-                  <th>Livro</th>
-                  <th>Autor</th>
-                  <th>Gênero</th>
-                  <th></th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let pd of service.list">
-                  <td (click)="populateForm(pd)">{{pd.livroName}}</td>
-                  <td (click)="populateForm(pd)">{{pd.autor}}</td>
-                  <td (click)="populateForm(pd)">{{pd.genero}}</td>
+        <thead class="thead-light">
+          <tr>
+            <th>Livro</th>
+            <th>Autor</th>
+            <th>Gênero</th>
+            <th>Quantidade</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pd of service.list">
+            <td (click)="populateForm(pd)">{{pd.livroName}}</td>
+            <td (click)="populateForm(pd)">{{pd.autor}}</td>
+            <td (click)="populateForm(pd)">{{pd.genero}}</td>
+            <td (click)="populateForm(pd)">{{pd.quantidade}}</td>
 
-                  <td>
-                      <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.livroId)"></i>
-                  </td>
-              </tr>
-          </tbody>
+            <td>
+              <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.livroId)"></i>
+            </td>
+          </tr>
+        </tbody>
       </table>
+    </div>
   </div>
-</div>
+
+

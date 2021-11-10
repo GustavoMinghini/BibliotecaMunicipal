@@ -1,27 +1,33 @@
-<form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)">
+<div class="container">
+  <div class="jumbotron py-1">
+    <h1 class="display-7 text-center">Cadastrar Cliente</h1>
+  </div>
+
+<div class="row justify-content-center align-items-center">
+<form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)" (reset)="onReset(form)">
   <input type="hidden" name="pessoaId" [value]="service.formData.pessoaId" />
   <div class="form-group">
       <label>Nome</label>
-      <input class="form-control form-control-lg" type="text" placeholder="Nome do Cliente" name="pessoaName"
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Nome do Cliente" name="pessoaName"
           #pessoaName="ngModel" [(ngModel)]="service.formData.pessoaName"
           required [class.invalid]="pessoaName.invalid && pessoaName.touched">
   </div>
   <div class="form-group">
       <label>Endereço</label>
-      <input class="form-control form-control-lg" placeholder="Logradouro" name="endereco"
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z0-9]+$" placeholder="Logradouro" name="endereco"
           #endereco="ngModel" [(ngModel)]="service.formData.endereco"
           required  [class.invalid]="endereco.invalid && endereco.touched">
   </div>
   <div class="form-row">
       <div class="form-group col-md-6">
           <label>CPF</label>
-          <input class="form-control form-control-lg" type="number" placeholder="Security Code" name="cpf"
+          <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="Security Code" name="cpf"
               #cpf="ngModel" [(ngModel)]="service.formData.cpf"
-              required  [class.invalid]="cpf.invalid && cpf.touched">
+              required minlength="11" maxlength="11" [class.invalid]="cpf.invalid && cpf.touched">
       </div>
       <div class="form-group col-md-6">
           <label>Telefone</label>
-          <input class="form-control form-control-lg" type="number" placeholder="Telefone com DD" name="telefone"
+          <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="Telefone com DD" name="telefone"
               #telefone="ngModel" [(ngModel)]="service.formData.telefone"
               required [class.invalid]="telefone.invalid && telefone.touched">
       </div>
@@ -29,20 +35,26 @@
   <div class="form-row">
     <div class="form-group col-md-6">
         <label>Idade</label>
-        <input class="form-control form-control-lg" type="number" placeholder="Security Code" name="idade"
+        <input class="form-control form-control-lg" type="text" pattern="[0-9]+$" placeholder="Security Code" name="idade"
             #idade="ngModel" [(ngModel)]="service.formData.idade"
-            required minlength="0" maxlength="3" [class.invalid]="idade.invalid && idade.touched">
+            required minlength="1" maxlength="3" [class.invalid]="idade.invalid && idade.touched">
     </div>
   </div>
 
-  <div class="form-group">
-      <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">SUBMIT</button>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Cadastrar</button>
+    </div>
+    <div class="form-group col-md-6">
+      <button class="btn btn-info btn-lg btn-block" type="reset" >Cancelar</button>
+    </div>
   </div>
 </form>
+</div>
 
-
-<div class="jumbotron py-3">
-  <h1 class="display-4 text-center">Biblioteca Municipal</h1>
+<div class="jumbotron py-1">
+  <h1 class="display-7 text-center">Clientes Cadastrados</h1>
 </div>
 
 <div class="row">
@@ -73,7 +85,7 @@
       </table>
   </div>
 </div>
-
+</div>
 
 
 

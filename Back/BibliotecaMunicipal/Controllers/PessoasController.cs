@@ -78,6 +78,11 @@ namespace BibliotecaMunicipal.Controllers
         [HttpPost]
         public async Task<ActionResult<Pessoa>> PostPessoa(Pessoa pessoa)
         {
+            if(EncontrarPessoa(pessoa.Cpf) != 0)
+            {
+                return NotFound();
+            }
+
             _context.Pessoa.Add(pessoa);
             await _context.SaveChangesAsync();
 
@@ -103,6 +108,25 @@ namespace BibliotecaMunicipal.Controllers
         private bool PessoaExists(int id)
         {
             return _context.Pessoa.Any(e => e.PessoaId == id);
+        }
+
+        private int EncontrarPessoa(int cpf)
+        {
+            IQueryable<Pessoa> model = _context.Pessoa;
+            int id = 0;
+
+            if (!string.IsNullOrEmpty(cpf.ToString()))
+            {
+                model = model.Where(row => row.Cpf == cpf);
+            }
+
+            foreach (var item in model)
+            {
+                id = item.PessoaId;
+
+            }
+
+            return id;
         }
     }
 }

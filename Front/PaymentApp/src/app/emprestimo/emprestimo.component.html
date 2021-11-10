@@ -1,26 +1,117 @@
-<div class="jumbotron py-3">
-  <h1 class="display-4 text-center">Biblioteca Municipal</h1>
-</div>
-
-<form novalidate autocomplete="off" #form="ngForm" (submit)="onEmprestimo(form)">
-  <input type="hidden" name="emprestimoId" [value]="service.formData.emprestimoId" />
-  <div class="form-group">
-      <label>CPF</label>
-      <input class="form-control form-control-lg" placeholder="000-000-000.00"  name="cpf"
-          #cpf="ngModel" [(ngModel)]="service.formData.cpf"
-          required [class.invalid]="cpf.invalid && cpf.touched">
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="form-group col-md-2">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#EmprestimoModal">Emprestar</button>
+    </div>
+    <div class="form-group col-md-2">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#DevolverModal">Devolver</button>
+    </div>
   </div>
-  <div class="form-group">
-    <label>Nome do livro</label>
-    <input class="form-control form-control-lg" placeholder="Nome do livro"  name="livroName"
-        #livroName="ngModel" [(ngModel)]="service.formData.livroName"
-        required [class.invalid]="livroName.invalid && livroName.touched">
 </div>
 
 
-  <div class="form-group">
-      <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">SUBMIT</button>
+
+
+<!-- Modal Emprestar -->
+
+<div class="modal fade modal-lg" id="EmprestimoModal" tabindex="-1" aria-labelledby="EmprestimoModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EmprestimoModalLabel">Biblioteca Municipal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="jumbotron py-1">
+              <h1 class="display-10 text-center">Locação</h1>
+            </div>
+
+            <form novalidate autocomplete="off" #form="ngForm" (submit)="onEmprestimo(form)" (reset)="onReset(form)">
+              <input type="hidden" name="emprestimoId" [value]="service.formData.requestId" />
+              <div class="form-group">
+                <label>CPF</label>
+                <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="000-000-000.00"
+                  name="cpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="11"
+                  maxlength="11" [class.invalid]="requestCpf.invalid && requestCpf.touched">
+              </div>
+
+              <div class="form-group">
+                <label>Nome do livro</label>
+                <input class="form-control form-control-lg" pattern="^[a-zA-Z0-9#+]+$" placeholder="Nome do livro"
+                  name="livroName" #livroName="ngModel" [(ngModel)]="service.formData.livroName" required
+                  [class.invalid]="livroName.invalid && livroName.touched">
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Cadastrar</button>
+          </div>
+          <div class="form-group col-md-6">
+            <button class="btn btn-info btn-lg btn-block" type="reset">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-</form>
+</div>
 
 
+
+<!-- Modal Devolução -->
+
+
+<div class="modal fade modal-lg" id="DevolverModal" tabindex="-1" aria-labelledby="DevolverModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="DevolverModalLabel">Biblioteca Municipal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+
+
+
+            <div class="jumbotron py-3">
+              <h1 class="display-7 text-center">Devolução</h1>
+            </div>
+
+            <form novalidate autocomplete="off" #form="ngForm" (submit)="onEmprestimo(form)" (reset)="onReset(form)">
+              <input type="hidden" name="emprestimoId" [value]="service.formData.requestId" />
+              <div class="form-group">
+                <label>CPF</label>
+                <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="000-000-000.00"
+                  name="cpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="11"
+                  maxlength="11" [class.invalid]="requestCpf.invalid && requestCpf.touched">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <button class="btn btn-info btn-lg btn-block" type="submit">Devolver</button>
+                </div>
+                <div class="form-group col-md-6">
+                  <button class="btn btn-info btn-lg btn-block" type="reset">Cancelar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>

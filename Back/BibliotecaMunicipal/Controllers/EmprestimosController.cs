@@ -87,11 +87,19 @@ namespace BibliotecaMunicipal.Controllers
             {
                 Emprestimo emprestimo = new Emprestimo();
 
-                emprestimo.LivroId = EncontrarLivroDiminuir(request.livroName);
+                if(EncontrarLivroDiminuir(request.livroName)== 0)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    emprestimo.LivroId = EncontrarLivroDiminuir(request.livroName);
+                }
+
 
                 if(EncontrarPessoa(request.requestCpf) == 0)
                 {
-                    return NoContent();
+                    return BadRequest(new { mensagem = "Erro cpf nao existe" });
                 }
                 else
                 {
@@ -109,7 +117,7 @@ namespace BibliotecaMunicipal.Controllers
             }
             else
             {
-                return NoContent();
+                return BadRequest();
             }
            
         }
@@ -167,6 +175,10 @@ namespace BibliotecaMunicipal.Controllers
             foreach (var item in model)
             {
                 id =  item.LivroId;
+                if (item.Quantidade < 1)
+                {
+                    return 0;
+                }
                 item.Quantidade--;
 
             }
@@ -207,6 +219,7 @@ namespace BibliotecaMunicipal.Controllers
             foreach (var item in model)
             {
                 id = item.PessoaId;
+
                 
             }
 

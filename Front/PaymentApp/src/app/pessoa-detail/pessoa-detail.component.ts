@@ -23,13 +23,17 @@ export class PessoaDetailsComponent implements OnInit {
     else
       this.updateRecord(form);
   }
+  onReset(form: NgForm){
+    this.resetForm(form);
+    this.service.refreshList();
+  }
 
   insertRecord(form: NgForm) {
     this.service.postPessoaDetail().subscribe(
       res => {
         this.resetForm(form);
         this.service.refreshList();
-        this.toastr.success('Submitted successfully', 'Payment Detail Register')
+        this.toastr.success("Registrado com Sucesso", 'Informações')
       },
       err => { console.log(err); }
     );
@@ -40,7 +44,7 @@ export class PessoaDetailsComponent implements OnInit {
       res => {
         this.resetForm(form);
         this.service.refreshList();
-        this.toastr.info('Updated successfully', 'Payment Detail Register')
+        this.toastr.info('Atualizado com Sucesso', 'Informações')
       },
       err => { console.log(err); }
     );
@@ -59,12 +63,12 @@ export class PessoaDetailsComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    if (confirm('Are you sure to delete this record?')) {
+    if (confirm('Você tem certeza que deseja apagar?')) {
       this.service.deletePessoaDetail(id)
         .subscribe(
           res => {
             this.service.refreshList();
-            this.toastr.error("Deleted successfully", 'Payment Detail Register');
+            this.toastr.error("Apagada com Sucesso", 'Informações');
           },
           err => { console.log(err) }
         )

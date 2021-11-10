@@ -1,6 +1,17 @@
 export class EmprestimoDetail {
-    emprestimoId: number=0;
-    cpf: string='';
+    requestId: number=0;
+    requestCpf: string='';
     livroName: string='';
 
+
 }
+
+export class LivrosDetail {
+  livroId: number=0;
+  livroName: string='';
+  quantidade: string='';
+
+}
+
+
+

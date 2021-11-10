@@ -14,13 +14,12 @@ export class EmprestimoDetailService {
   list: EmprestimoDetail[];
 
   postEmprestimoDetail() {
-    console.log(this.formData.cpf);
-    return this.http.post(this.baseURL, this.formData.cpf + this.formData.livroName);
+    return this.http.post(this.baseURL,this.formData);
   }
 
   putEmprestimoDetail() {
     let a = this.formData;
-    return this.http.put(`${this.baseURL}/${this.formData.emprestimoId}`, a);
+    return this.http.put(`${this.baseURL}/${this.formData.requestId}`, a);
   }
 
   deleteEmprestimoDetail(id: number) {
