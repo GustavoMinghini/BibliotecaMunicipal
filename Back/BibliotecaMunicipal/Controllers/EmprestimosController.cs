@@ -82,21 +82,28 @@ namespace BibliotecaMunicipal.Controllers
         [HttpPost]
         public async Task<ActionResult<Emprestimo>> PostEmprestimo(RequestEmprestimo request)
         {
-
+            //esse if esta verificando se existe um emprestimo ja feito por essa pessoa
+            //o metodo encontrar pessoa ele recebe um cpf e devolve o id da pessoa que tem o cpf
+            // e o metodo verificar retorna um bool, se ja existe ou nao um emprestimo feito
             if (VerificarEmprestimo(EncontrarPessoa(request.requestCpf)) == false)
             {
                 Emprestimo emprestimo = new Emprestimo();
 
-                if(EncontrarLivroDiminuir(request.livroName)== 0)
+                //o metodo encontrar livro ele retorna o livro que tem o nome enviado
+                //esse if ele ta verificando se existe algum livro com o nome informado caso nao
+                // ele retorna um badrequest
+                if(EncontrarLivro(request.livroName)== 0)
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    emprestimo.LivroId = EncontrarLivroDiminuir(request.livroName);
+                    emprestimo.LivroId = EncontrarLivro(request.livroName);
+                    //o metodo diminuir livro, ele diminui uma quantidade do livro retornado pelo encontrar
+                    LivroDiminuir(emprestimo.LivroId);
                 }
 
-
+                // esse if ta verificando se exite uma pessoa com esse cpf, caso nao retorna um badrequest
                 if(EncontrarPessoa(request.requestCpf) == 0)
                 {
                     return BadRequest(new { mensagem = "Erro cpf nao existe" });
@@ -106,7 +113,7 @@ namespace BibliotecaMunicipal.Controllers
                     emprestimo.PessoaId = EncontrarPessoa(request.requestCpf);
                 }
 
-
+                //aqui esta salvando na variavel a data de agora
                 emprestimo.DataEmprestimo = DateTime.Now;
 
 
@@ -141,7 +148,9 @@ namespace BibliotecaMunicipal.Controllers
         [HttpDelete("/Devolver")]
         public async Task<IActionResult> DeleteEmprestimoPessoa(string cpf)
         {
-
+            // EncontrarPessoa pega o cpf da pessoa em que o metodo recebeu e devolve o ID da pessoa,
+            // o encotrar emprestimo pega o ID da pessoa e retorna o id do emprestimo e tambem aumenta em 1 a quantidade do livro
+            
             var emprestimo = await _context.Emprestimo.FindAsync(EncontrarEmprestimo(EncontrarPessoa(cpf)));
             if (emprestimo == null)
             {
@@ -157,10 +166,11 @@ namespace BibliotecaMunicipal.Controllers
 
         private bool EmprestimoExists(int id)
         {
+            
             return _context.Emprestimo.Any(e => e.EmprestimoId == id);
         }
 
-        private int EncontrarLivroDiminuir(string name)
+        private int EncontrarLivro(string name)
         {
             IQueryable<Livro> model = _context.Livro;
             int id=0;
@@ -175,18 +185,13 @@ namespace BibliotecaMunicipal.Controllers
             foreach (var item in model)
             {
                 id =  item.LivroId;
-                if (item.Quantidade < 1)
-                {
-                    return 0;
-                }
-                item.Quantidade--;
 
             }
             _context.SaveChanges();
 
             return id;
         }
-        private void EncontrarLivroAumentar(int id)
+        private void LivroAumentar(int id)
         {
             IQueryable<Livro> model = _context.Livro;
             
@@ -200,6 +205,26 @@ namespace BibliotecaMunicipal.Controllers
             foreach (var item in model)
             {
                 item.Quantidade++;
+
+            }
+            _context.SaveChanges();
+
+        }
+
+        private void LivroDiminuir(int id)
+        {
+            IQueryable<Livro> model = _context.Livro;
+
+
+            if (!string.IsNullOrEmpty(id.ToString()))
+            {
+                model = model.Where(row => row.LivroId == id);
+
+            }
+
+            foreach (var item in model)
+            {
+                item.Quantidade--;
 
             }
             _context.SaveChanges();
@@ -243,14 +268,15 @@ namespace BibliotecaMunicipal.Controllers
                 id = item.EmprestimoId;
                 id_livro = item.LivroId;
             }
-            EncontrarLivroAumentar(id_livro);
+            //  livroaumentar ele aumenta a quantidade da tabela livro do id do livro enviando por parametro
+            LivroAumentar(id_livro);
 
             return id;
         }
 
         private bool VerificarEmprestimo(int id_pessoa)
         {
-
+            // nesse metodo estamos verificando se existe um emprestimo com o id da pessoa informado
             IQueryable<Emprestimo> model = _context.Emprestimo;
 
             if (!string.IsNullOrEmpty(id_pessoa.ToString()))

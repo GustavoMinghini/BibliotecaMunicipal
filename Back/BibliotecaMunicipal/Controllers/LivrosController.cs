@@ -41,18 +41,6 @@ namespace BibliotecaMunicipal.Controllers
 
             return livro;
         }
-        [HttpGet("/buscar")]
-        public async Task<IEnumerable<Livro>> Search(string name)
-        {
-            IQueryable<Livro> query = _context.Livro;
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(e => e.LivroName.Contains(name));
-
-            }
-            return await query.ToListAsync();
-        }
 
         // PUT: api/Livros/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -90,10 +78,17 @@ namespace BibliotecaMunicipal.Controllers
         [HttpPost]
         public async Task<ActionResult<Livro>> PostLivro(Livro livro)
         {
-            _context.Livro.Add(livro);
-            await _context.SaveChangesAsync();
+            //verificando se existe um livro com este nome ja
+            if (EncontrarLivro(livro.LivroName) == 0)
+            {
+                return BadRequest();
+            }
+            
+             _context.Livro.Add(livro);
+             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLivro", new { id = livro.LivroId }, livro);
+             return CreatedAtAction("GetLivro", new { id = livro.LivroId }, livro);
+            
         }
 
         // DELETE: api/Livros/5
@@ -115,6 +110,28 @@ namespace BibliotecaMunicipal.Controllers
         private bool LivroExists(int id)
         {
             return _context.Livro.Any(e => e.LivroId == id);
+        }
+
+        private int EncontrarLivro(string name)
+        {
+            IQueryable<Livro> model = _context.Livro;
+            int id = 0;
+            Livro l = new Livro();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                model = model.Where(row => row.LivroName.Contains(name));
+
+            }
+
+            foreach (var item in model)
+            {
+                id = item.LivroId;
+
+            }
+            _context.SaveChanges();
+
+            return id;
         }
     }
 }

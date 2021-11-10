@@ -78,9 +78,10 @@ namespace BibliotecaMunicipal.Controllers
         [HttpPost]
         public async Task<ActionResult<Pessoa>> PostPessoa(Pessoa pessoa)
         {
+            //verificando se ja existe um cpf criado, para nao criar 2 iguais
             if(EncontrarPessoa(pessoa.Cpf) != 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _context.Pessoa.Add(pessoa);
