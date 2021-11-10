@@ -94,7 +94,7 @@ namespace BibliotecaMunicipal.Controllers
                 // ele retorna um badrequest
                 if(EncontrarLivro(request.livroName)== 0)
                 {
-                    return BadRequest();
+                    return NoContent();
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace BibliotecaMunicipal.Controllers
                 // esse if ta verificando se exite uma pessoa com esse cpf, caso nao retorna um badrequest
                 if(EncontrarPessoa(request.requestCpf) == 0)
                 {
-                    return BadRequest(new { mensagem = "Erro cpf nao existe" });
+                    return NoContent();
                 }
                 else
                 {
@@ -124,7 +124,7 @@ namespace BibliotecaMunicipal.Controllers
             }
             else
             {
-                return BadRequest();
+                return NoContent();
             }
            
         }

@@ -16,7 +16,7 @@
 
 <!-- Modal Emprestar -->
 
-<div class="modal fade modal-lg" id="EmprestimoModal" tabindex="-1" aria-labelledby="EmprestimoModalLabel"
+<!-- <div class="modal fade modal-lg" id="EmprestimoModal" tabindex="-1" aria-labelledby="EmprestimoModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -32,11 +32,11 @@
             </div>
 
             <form novalidate autocomplete="off" #form="ngForm" (submit)="onEmprestimo(form)" (reset)="onReset(form)">
-              <input type="hidden" name="emprestimoId" [value]="service.formData.requestId" />
+              <input type="hidden" name="requestId" [value]="service.formData.requestId" />
               <div class="form-group">
                 <label>CPF</label>
                 <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="000-000-000.00"
-                  name="cpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="11"
+                  name="requestCpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="1"
                   maxlength="11" [class.invalid]="requestCpf.invalid && requestCpf.touched">
               </div>
 
@@ -46,20 +46,68 @@
                   name="livroName" #livroName="ngModel" [(ngModel)]="service.formData.livroName" required
                   [class.invalid]="livroName.invalid && livroName.touched">
               </div>
+              <div class="modal-footer">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Cadastrar</button>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <button class="btn btn-info btn-lg btn-block" type="reset">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
 
+        </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="modal fade modal-lg" id="EmprestimoModal" tabindex="-1" aria-labelledby="EmprestimoModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EmprestimoModalLabel">Biblioteca Municipal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="jumbotron py-3">
+              <h1 class="display-7 text-center">Devolução</h1>
+            </div>
+
+            <form novalidate autocomplete="off" #form="ngForm" (submit)="onEmprestimo(form)" (reset)="onReset(form)">
+              <input type="hidden" name="emprestimoId" [value]="service.formData.requestId" />
+              <div class="form-group">
+                <label>CPF</label>
+                <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="000-000-000.00"
+                  name="requestCpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="1"
+                  maxlength="11" [class.invalid]="requestCpf.invalid && requestCpf.touched">
+                  <div class="form-group">
+                    <label>Nome do livro</label>
+                    <input class="form-control form-control-lg" pattern="^[a-zA-Z0-9#+]+$" placeholder="Nome do livro"
+                      name="livroName" #livroName="ngModel" [(ngModel)]="service.formData.livroName" required
+                      [class.invalid]="livroName.invalid && livroName.touched">
+                  </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <button class="btn btn-info btn-lg btn-block" type="submit">Devolver</button>
+                </div>
+                <div class="form-group col-md-6">
+                  <button class="btn btn-info btn-lg btn-block" type="reset">Cancelar</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Cadastrar</button>
-          </div>
-          <div class="form-group col-md-6">
-            <button class="btn btn-info btn-lg btn-block" type="reset">Cancelar</button>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -89,12 +137,12 @@
               <h1 class="display-7 text-center">Devolução</h1>
             </div>
 
-            <form novalidate autocomplete="off" #form="ngForm" (submit)="onEmprestimo(form)" (reset)="onReset(form)">
+            <form novalidate autocomplete="off" #form="ngForm" (submit)="onDevolver(service.formData.requestCpf)" (reset)="onReset(form)">
               <input type="hidden" name="emprestimoId" [value]="service.formData.requestId" />
               <div class="form-group">
                 <label>CPF</label>
                 <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="000-000-000.00"
-                  name="cpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="11"
+                  name="cpf" #requestCpf="ngModel" [(ngModel)]="service.formData.requestCpf" required minlength="1"
                   maxlength="11" [class.invalid]="requestCpf.invalid && requestCpf.touched">
               </div>
               <div class="form-row">

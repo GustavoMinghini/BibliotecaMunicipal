@@ -10,10 +10,12 @@ export class EmprestimoDetailService {
   constructor(private http: HttpClient) { }
 
   readonly baseURL = 'https://localhost:44337/api/Emprestimos'
+  readonly urlDelete = 'https://localhost:44337/Devolver?cpf='
   formData: EmprestimoDetail = new EmprestimoDetail();
   list: EmprestimoDetail[];
 
   postEmprestimoDetail() {
+    console.log(this.formData);
     return this.http.post(this.baseURL,this.formData);
   }
 
@@ -22,8 +24,8 @@ export class EmprestimoDetailService {
     return this.http.put(`${this.baseURL}/${this.formData.requestId}`, a);
   }
 
-  deleteEmprestimoDetail(id: number) {
-    return this.http.delete(`${this.baseURL}/${id}`);
+  deleteEmprestimoDetail(cpf: string) {
+    return this.http.delete(`${this.urlDelete}${cpf}`);
   }
 
   refreshList() {

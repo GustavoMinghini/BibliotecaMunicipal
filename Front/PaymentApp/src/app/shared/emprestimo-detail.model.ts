@@ -6,12 +6,6 @@ export class EmprestimoDetail {
 
 }
 
-export class LivrosDetail {
-  livroId: number=0;
-  livroName: string='';
-  quantidade: string='';
-
-}
 
 
 

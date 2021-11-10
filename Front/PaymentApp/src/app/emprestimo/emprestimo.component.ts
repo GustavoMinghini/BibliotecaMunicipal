@@ -46,7 +46,7 @@ export class EmprestimoComponent implements OnInit {
   }
 
 
-  
+
 
   insertRecord(form: NgForm) {
     this.service.postEmprestimoDetail().subscribe(
@@ -61,15 +61,12 @@ export class EmprestimoComponent implements OnInit {
 
 
   onEmprestimo(form: NgForm) {
-    if (this.service.formData.requestId == 0)
       this.insertRecord(form);
-    else
-      this.updateRecord(form);
   }
 
-  onDelete(id: number) {
-    if (confirm('Você tem certeza que deseja apagar?')) {
-      this.service.deleteEmprestimoDetail(id)
+  onDevolver(cpf: string) {
+    if (confirm('Você tem certeza que deseja Devolver?')) {
+      this.service.deleteEmprestimoDetail(cpf)
         .subscribe(
           res => {
             this.service.refreshList();
