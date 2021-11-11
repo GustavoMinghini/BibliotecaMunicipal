@@ -35,7 +35,9 @@ export class PessoaDetailsComponent implements OnInit {
         this.service.refreshList();
         this.toastr.success("Registrado com Sucesso", 'Informações')
       },
-      err => { console.log(err); }
+      err => { console.log(err);
+        this.toastr.error("Erro na Operação", "Verifique os dados");
+      }
     );
   }
 
@@ -46,7 +48,10 @@ export class PessoaDetailsComponent implements OnInit {
         this.service.refreshList();
         this.toastr.info('Atualizado com Sucesso', 'Informações')
       },
-      err => { console.log(err); }
+      err => { console.log(err);
+        this.toastr.error("Erro na Operação", "Verifique os dados");
+
+      }
     );
   }
 
@@ -70,7 +75,10 @@ export class PessoaDetailsComponent implements OnInit {
             this.service.refreshList();
             this.toastr.error("Apagada com Sucesso", 'Informações');
           },
-          err => { console.log(err) }
+          err => { console.log(err)
+            this.toastr.error("Erro na Operação", "Verifique os dados");
+
+          }
         )
     }
   }

@@ -1,3 +1,4 @@
+import { IndexComponent } from './index/index.component';
 import { EmprestimoComponent } from './emprestimo/emprestimo.component';
 import { LivrosDetailsComponent } from './livros-details/livros-details.component';
 import { LivrosDetailsFromComponent } from './livros-details/livros-details-from/livros-details-from.component';
@@ -9,7 +10,8 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {path: 'pessoa', component: PessoaDetailsComponent},
   {path: 'livro', component: LivrosDetailsComponent},
-  {path: 'emprestimo', component: EmprestimoComponent}
+  {path: 'emprestimo', component: EmprestimoComponent},
+  {path: '', component: IndexComponent}
 ];
 
 @NgModule({

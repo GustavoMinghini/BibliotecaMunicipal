@@ -22,5 +22,7 @@ namespace BibliotecaMunicipal.Models.Emprestimos
         [Column(TypeName = "DateTime")]
         public DateTime DataEmprestimo { get; set; }
 
+        public bool Emprestado { get; set; } = false;
+
     }
 }

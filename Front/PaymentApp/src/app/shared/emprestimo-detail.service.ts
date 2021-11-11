@@ -15,7 +15,6 @@ export class EmprestimoDetailService {
   list: EmprestimoDetail[];
 
   postEmprestimoDetail() {
-    console.log(this.formData);
     return this.http.post(this.baseURL,this.formData);
   }
 
@@ -25,7 +24,7 @@ export class EmprestimoDetailService {
   }
 
   deleteEmprestimoDetail(cpf: string) {
-    return this.http.delete(`${this.urlDelete}${cpf}`);
+    return this.http.put(`${this.urlDelete}${cpf}`,13123123123);
   }
 
   refreshList() {

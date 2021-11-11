@@ -111,7 +111,7 @@ namespace BibliotecaMunicipal.Controllers
             return _context.Pessoa.Any(e => e.PessoaId == id);
         }
 
-        private int EncontrarPessoa(int cpf)
+        private int EncontrarPessoa(long cpf)
         {
             IQueryable<Pessoa> model = _context.Pessoa;
             int id = 0;

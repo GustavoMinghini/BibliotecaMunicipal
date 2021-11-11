@@ -32,6 +32,7 @@ namespace BibliotecaMunicipal.Controllers
 
         }
 
+
         // GET: api/Emprestimos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Emprestimo>> GetEmprestimo(int id)
@@ -94,19 +95,22 @@ namespace BibliotecaMunicipal.Controllers
                 // ele retorna um badrequest
                 if(EncontrarLivro(request.livroName)== 0)
                 {
-                    return NoContent();
+                    return BadRequest();
                 }
                 else
                 {
                     emprestimo.LivroId = EncontrarLivro(request.livroName);
                     //o metodo diminuir livro, ele diminui uma quantidade do livro retornado pelo encontrar
-                    LivroDiminuir(emprestimo.LivroId);
+                    if (LivroDiminuir(emprestimo.LivroId) == 1)
+                    {
+                        return BadRequest();
+                    }
                 }
 
                 // esse if ta verificando se exite uma pessoa com esse cpf, caso nao retorna um badrequest
                 if(EncontrarPessoa(request.requestCpf) == 0)
                 {
-                    return NoContent();
+                    return BadRequest();
                 }
                 else
                 {
@@ -116,6 +120,8 @@ namespace BibliotecaMunicipal.Controllers
                 //aqui esta salvando na variavel a data de agora
                 emprestimo.DataEmprestimo = DateTime.Now;
 
+                emprestimo.Emprestado = true;
+
 
                 _context.Emprestimo.Add(emprestimo);
                 await _context.SaveChangesAsync();
@@ -124,7 +130,7 @@ namespace BibliotecaMunicipal.Controllers
             }
             else
             {
-                return NoContent();
+                return BadRequest();
             }
            
         }
@@ -145,20 +151,45 @@ namespace BibliotecaMunicipal.Controllers
             return NoContent();
         }
 
-        [HttpDelete("/Devolver")]
+        [HttpPut("/Devolver")]
         public async Task<IActionResult> DeleteEmprestimoPessoa(string cpf)
         {
             // EncontrarPessoa pega o cpf da pessoa em que o metodo recebeu e devolve o ID da pessoa,
             // o encotrar emprestimo pega o ID da pessoa e retorna o id do emprestimo e tambem aumenta em 1 a quantidade do livro
-            
+            int id_emprestimo = EncontrarEmprestimo(EncontrarPessoa(cpf));
             var emprestimo = await _context.Emprestimo.FindAsync(EncontrarEmprestimo(EncontrarPessoa(cpf)));
-            if (emprestimo == null)
+            if (id_emprestimo == 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            _context.Emprestimo.Remove(emprestimo);
-            await _context.SaveChangesAsync();
+            if (EmprestimoExists(id_emprestimo) && emprestimo.Emprestado == true)
+            {
+                LivroAumentar(emprestimo.LivroId);
+            }
+            else
+            {
+                return BadRequest();
+            }
+            emprestimo.Emprestado = false;
+            
+            _context.Entry(emprestimo).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmprestimoExists(id_emprestimo))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return NoContent();
         }
@@ -178,7 +209,7 @@ namespace BibliotecaMunicipal.Controllers
 
             if (!string.IsNullOrEmpty(name))
             {
-                model = model.Where(row => row.LivroName.Contains(name));
+                model = model.Where(row => row.LivroName.Equals(name));
                 
             }
             
@@ -211,7 +242,7 @@ namespace BibliotecaMunicipal.Controllers
 
         }
 
-        private void LivroDiminuir(int id)
+        private int LivroDiminuir(int id)
         {
             IQueryable<Livro> model = _context.Livro;
 
@@ -224,10 +255,16 @@ namespace BibliotecaMunicipal.Controllers
 
             foreach (var item in model)
             {
+                if(item.Quantidade < 1)
+                {
+                    return 1;
+                }
                 item.Quantidade--;
 
             }
             _context.SaveChanges();
+
+            return 0;
 
         }
 
@@ -255,7 +292,7 @@ namespace BibliotecaMunicipal.Controllers
         {
             IQueryable<Emprestimo> model = _context.Emprestimo;
             int id = 0;
-            int id_livro = 0;
+
 
             if (!string.IsNullOrEmpty(id_pessoa.ToString()))
             {
@@ -266,10 +303,8 @@ namespace BibliotecaMunicipal.Controllers
             foreach (var item in model)
             {
                 id = item.EmprestimoId;
-                id_livro = item.LivroId;
             }
             //  livroaumentar ele aumenta a quantidade da tabela livro do id do livro enviando por parametro
-            LivroAumentar(id_livro);
 
             return id;
         }
@@ -288,10 +323,40 @@ namespace BibliotecaMunicipal.Controllers
             
            foreach (var item in model)
              {
-                return EmprestimoExists(item.EmprestimoId);
+                if (item.Emprestado == true)
+                {
+                    return true;
+                }
              }
 
             return false;
+        }
+
+        private Emprestimo PrencherEmprestimo(int id_pessoa)
+        {
+            IQueryable<Emprestimo> model = _context.Emprestimo;
+            int id = 0;
+
+            Emprestimo empre = new Emprestimo();
+
+            if (!string.IsNullOrEmpty(id_pessoa.ToString()))
+            {
+                model = model.Where(row => row.PessoaId == id_pessoa);
+
+            }
+
+            foreach (var item in model)
+            {
+                empre.EmprestimoId = item.EmprestimoId;
+                empre.DataEmprestimo = item.DataEmprestimo;
+                empre.Emprestado = item.Emprestado;
+                empre.LivroId = item.LivroId;
+                empre.PessoaId = item.PessoaId;
+
+            }
+            //  livroaumentar ele aumenta a quantidade da tabela livro do id do livro enviando por parametro
+
+            return empre;
         }
 
     }

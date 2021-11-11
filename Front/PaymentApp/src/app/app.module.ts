@@ -13,6 +13,8 @@ import { LivrosDetailsFromComponent } from './livros-details/livros-details-from
 import { PessoaDetailsComponent } from './pessoa-detail/pessoa-detail.component';
 import { EmprestimoComponent } from './emprestimo/emprestimo.component';
 import { AppRoutingModule } from './app-routing.module';
+import { IndexComponent } from './index/index.component';
+
 
 
 
@@ -24,7 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
     LivrosDetailsComponent,
     LivrosDetailsFromComponent,
     PessoaDetailsComponent,
-    EmprestimoComponent
+    EmprestimoComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+
   ],
   providers: [],
   bootstrap: [AppComponent]

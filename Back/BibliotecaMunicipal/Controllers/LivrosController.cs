@@ -79,7 +79,7 @@ namespace BibliotecaMunicipal.Controllers
         public async Task<ActionResult<Livro>> PostLivro(Livro livro)
         {
             //verificando se existe um livro com este nome ja
-            if (EncontrarLivro(livro.LivroName) == 0)
+            if (EncontrarLivro(livro.LivroName) != 0)
             {
                 return BadRequest();
             }
@@ -120,7 +120,7 @@ namespace BibliotecaMunicipal.Controllers
 
             if (!string.IsNullOrEmpty(name))
             {
-                model = model.Where(row => row.LivroName.Contains(name));
+                model = model.Where(row => row.LivroName.Equals(name));
 
             }
 
@@ -129,7 +129,7 @@ namespace BibliotecaMunicipal.Controllers
                 id = item.LivroId;
 
             }
-            _context.SaveChanges();
+           
 
             return id;
         }

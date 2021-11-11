@@ -21,7 +21,7 @@ namespace BibliotecaMunicipal.Models.Pessoas
         public string Endereco { get; set; }
 
         [Required]
-        public int Cpf { get; set; }
+        public Int64 Cpf { get; set; }
 
         [Required]
         public Int64 Telefone { get; set; }

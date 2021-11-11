@@ -29,6 +29,9 @@ namespace BibliotecaMunicipal.Migrations
                     b.Property<DateTime>("DataEmprestimo")
                         .HasColumnType("DateTime");
 
+                    b.Property<bool>("Emprestado")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
 
@@ -59,8 +62,8 @@ namespace BibliotecaMunicipal.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("ISBN")
-                        .HasColumnType("int");
+                    b.Property<long>("ISBN")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("LivroName")
                         .IsRequired()
@@ -81,8 +84,8 @@ namespace BibliotecaMunicipal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Cpf")
-                        .HasColumnType("int");
+                    b.Property<long>("Cpf")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Endereco")
                         .IsRequired()

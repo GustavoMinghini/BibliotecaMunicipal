@@ -24,12 +24,15 @@ export class LivrosDetailsComponent implements OnInit {
       res => {
         this.resetForm(form);
         this.service.refreshList();
-        this.toastr.info('Updated successfully', 'Payment Detail Register')
+        this.toastr.info('Com Sucesso', 'Atualizado')
       },
-      err => { console.log(err); }
+      err => { console.log(err);
+        this.toastr.error("Erro na Operação", "Verifique os dados");
+
+      }
     );
   }
-  
+
   resetForm(form: NgForm) {
     form.form.reset();
     this.service.formData = new LivroDetail();
@@ -52,9 +55,12 @@ export class LivrosDetailsComponent implements OnInit {
       res => {
         this.resetForm(form);
         this.service.refreshList();
-        this.toastr.success('Submitted successfully', 'Payment Detail Register')
+        this.toastr.success('Registrada com Sucesso', 'Informações')
       },
-      err => { console.log(err); }
+      err => { console.log(err);
+        this.toastr.error("Erro na Operação", "Verifique os dados");
+
+      }
     );
   }
 
@@ -70,9 +76,11 @@ export class LivrosDetailsComponent implements OnInit {
         .subscribe(
           res => {
             this.service.refreshList();
-            this.toastr.error("Deleted successfully", 'Payment Detail Register');
+            this.toastr.error("Deletado com Sucesso", 'Livro');
           },
-          err => { console.log(err) }
+          err => { console.log(err)
+            this.toastr.error("Erro na Operação", "Verifique os dados");
+          }
         )
     }
   }

@@ -29,7 +29,7 @@ namespace BibliotecaMunicipal.Models.Livros
         public string Editora { get; set; }
 
         [Required]
-        public int ISBN { get; set; }
+        public Int64 ISBN { get; set; }
 
         [Required]
         public int Quantidade { get; set; }

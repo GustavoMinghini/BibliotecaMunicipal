@@ -1,3 +1,4 @@
+<input type="button" value="Voltar" routerLink="" class="fixed-top">
 <div class="container">
   <div class="jumbotron py-1">
     <h1 class="display-7 text-center">Cadastrar Cliente</h1>
@@ -8,13 +9,13 @@
   <input type="hidden" name="pessoaId" [value]="service.formData.pessoaId" />
   <div class="form-group">
       <label>Nome</label>
-      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Nome do Cliente" name="pessoaName"
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z ]+$" placeholder="Nome do Cliente" name="pessoaName"
           #pessoaName="ngModel" [(ngModel)]="service.formData.pessoaName"
           required [class.invalid]="pessoaName.invalid && pessoaName.touched">
   </div>
   <div class="form-group">
       <label>Endereço</label>
-      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z0-9]+$" placeholder="Logradouro" name="endereco"
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z0-9 ]+$" placeholder="Logradouro" name="endereco"
           #endereco="ngModel" [(ngModel)]="service.formData.endereco"
           required  [class.invalid]="endereco.invalid && endereco.touched">
   </div>
@@ -29,7 +30,7 @@
           <label>Telefone</label>
           <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="Telefone com DD" name="telefone"
               #telefone="ngModel" [(ngModel)]="service.formData.telefone"
-              required [class.invalid]="telefone.invalid && telefone.touched">
+              required minlength="10" maxlength="11" [class.invalid]="telefone.invalid && telefone.touched">
       </div>
   </div>
   <div class="form-row">
@@ -58,11 +59,11 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col">
 
   </div>
   <div class="col-md-6">
-      <table class="table">
+      <table class="table bg-light">
           <thead class="thead-light">
               <tr>
                   <th>Nome</th>
@@ -73,16 +74,20 @@
           </thead>
           <tbody>
               <tr *ngFor="let pd of service.list">
-                  <td (click)="populateForm(pd)">{{pd.pessoaName}}</td>
-                  <td (click)="populateForm(pd)">{{pd.cpf}}</td>
-                  <td (click)="populateForm(pd)">{{pd.telefone}}</td>
+                  <td >{{pd.pessoaName}}</td>
+                  <td >{{pd.cpf}}</td>
+                  <td >{{pd.telefone}}</td>
 
                   <td>
+                       <i class="fas fa-edit" (click)="populateForm(pd)"></i>
                       <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.pessoaId)"></i>
+
                   </td>
               </tr>
           </tbody>
       </table>
+  </div>
+  <div class="col">
   </div>
 </div>
 </div>
