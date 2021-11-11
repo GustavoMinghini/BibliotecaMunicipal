@@ -3,6 +3,7 @@ import { EmprestimoDetail } from './../shared/emprestimo-detail.model';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -25,7 +26,10 @@ export class EmprestimoComponent implements OnInit {
         this.service.refreshList();
         this.toastr.info('Atualizado com Sucesso', 'Informações')
       },
-      err => { console.log(err); }
+      err => { console.log(err);
+        this.toastr.error("Erro na Operação", "Verifique os dados");
+
+      }
     );
   }
   onReset(form: NgForm){
@@ -39,6 +43,7 @@ export class EmprestimoComponent implements OnInit {
     form.form.reset();
     this.service.formData = new EmprestimoDetail();
   }
+
 
   populateForm(selectedRecord: EmprestimoDetail) {
     this.service.formData = Object.assign({}, selectedRecord);
@@ -55,24 +60,31 @@ export class EmprestimoComponent implements OnInit {
         this.service.refreshList();
         this.toastr.success("Registrado com Sucesso", 'Informações')
       },
-      err => { console.log(err); }
+      err => { console.log(err);
+        this.toastr.error("Erro na Operação", "Verifique os dados");
+      }
     );
   }
 
 
   onEmprestimo(form: NgForm) {
+    if (this.service.formData.requestId == 0)
       this.insertRecord(form);
+    else
+      this.updateRecord(form);
   }
 
   onDevolver(cpf: string) {
-    if (confirm('Você tem certeza que deseja Devolver?')) {
+    if (confirm('Você tem certeza que deseja devolver?')) {
       this.service.deleteEmprestimoDetail(cpf)
         .subscribe(
           res => {
             this.service.refreshList();
-            this.toastr.error("Apagada com Sucesso", 'Informações');
+            this.toastr.success("Realizada com Sucesso", 'Devolução');
           },
-          err => { console.log(err) }
+          err => { console.log(err)
+            this.toastr.error("Erro na Operação", "Verifique os dados");
+           }
         )
     }
   }
