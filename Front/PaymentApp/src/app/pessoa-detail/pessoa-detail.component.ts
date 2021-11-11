@@ -35,9 +35,7 @@ export class PessoaDetailsComponent implements OnInit {
         this.service.refreshList();
         this.toastr.success("Registrado com Sucesso", 'Informações')
       },
-      err => { console.log(err);
-        this.toastr.error("Erro na Operação", "Verifique os dados");
-      }
+      err => { console.log(err); }
     );
   }
 

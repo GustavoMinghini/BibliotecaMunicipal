@@ -1,4 +1,4 @@
-
+<input type="button" value="Voltar" routerLink="" class="fixed-top">
 <div class="container">
   <div class="jumbotron py-1">
     <h1 class="display-7 text-center">Cadastrar Livro</h1>
@@ -8,13 +8,13 @@
     <input type="hidden" name="livroId" [value]="service.formData.livroId" />
     <div class="form-group">
       <label>Nome do livro</label>
-      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z0-9]+$" placeholder="Book's name"
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z0-9#+ ]+$" placeholder="Book's name"
         name="livroName" #livroName="ngModel" [(ngModel)]="service.formData.livroName" required
         [class.invalid]="livroName.invalid && livroName.touched">
     </div>
     <div class="form-group">
       <label>Autor</label>
-      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Author" name="autor"
+      <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z ]+$" placeholder="Author" name="autor"
         #autor="ngModel" [(ngModel)]="service.formData.autor" required [class.invalid]="autor.invalid && autor.touched">
     </div>
     <div class="form-row">
@@ -26,7 +26,7 @@
       </div>
       <div class="form-group col-md-6">
         <label>Editora</label>
-        <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z]+$" placeholder="Publishing company"
+        <input class="form-control form-control-lg" type="text" pattern="^[a-zA-Z ]+$" placeholder="Publishing company"
           name="editora" #editora="ngModel" [(ngModel)]="service.formData.editora" required
           [class.invalid]="editora.invalid && editora.touched">
       </div>
@@ -35,7 +35,7 @@
       <div class="form-group col-md-6">
         <label>ISBN</label>
         <input class="form-control form-control-lg" type="number" pattern="[0-9]+$" placeholder="Standard Book Number"
-          name="isbn" #isbn="ngModel" [(ngModel)]="service.formData.isbn" required minlength="0" maxlength="3"
+          name="isbn" #isbn="ngModel" [(ngModel)]="service.formData.isbn" required
           [class.invalid]="isbn.invalid && isbn.touched">
       </div>
       <div class="form-group col-md-6">
@@ -64,10 +64,10 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col">
     </div>
     <div class="col-md-6">
-      <table class="table">
+      <table class="table bg-light">
         <thead class="thead-light">
           <tr>
             <th>Livro</th>
@@ -79,18 +79,20 @@
         </thead>
         <tbody>
           <tr *ngFor="let pd of service.list">
-            <td >{{pd.livroName}}</td>
-            <td >{{pd.autor}}</td>
+            <td>{{pd.livroName}}</td>
+            <td>{{pd.autor}}</td>
             <td >{{pd.genero}}</td>
-            <td >{{pd.quantidade}}</td>
+            <td>{{pd.quantidade}}</td>
 
             <td>
-              <i class="far fa-trash-alt fa-lg text-danger" (click)="populateForm(pd)"></i>
-              <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.livroId)"></i>
+              <i class="fas fa-edit" (click)="populateForm(pd)"></i>
+              <i class="far fa-trash-alt text-danger" (click)="onDelete(pd.livroId)"></i>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="col">
     </div>
   </div>
 

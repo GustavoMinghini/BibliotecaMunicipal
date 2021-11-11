@@ -24,7 +24,7 @@ export class EmprestimoDetailService {
   }
 
   deleteEmprestimoDetail(cpf: string) {
-    return this.http.put(`${this.urlDelete}${cpf}`,13123123123);
+    return this.http.put(`${this.urlDelete}${cpf}`, 123123);
   }
 
   refreshList() {
